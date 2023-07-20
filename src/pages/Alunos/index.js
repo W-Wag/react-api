@@ -65,7 +65,7 @@ export default function Alunos() {
               )}
             </Styled.ProfilePicture>
             <span>{aluno.nome}</span>
-            <span>{aluno.email}</span>
+            <span>{aluno.telefone}</span>
             <Link to={`/aluno/${aluno.id}/edit`}>
               <FaEdit size={16} />
             </Link>

@@ -16,11 +16,29 @@ export const Form = styled.form`
     margin-bottom: 20px;
   }
 
+  span {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+  }
+
   input {
     height: 40px;
     font-size: 20px;
     border: 1px solid #ddd;
     padding: 0 10px;
+
+    &:focus {
+      border: 1px solid ${colors.primaryDarkColor};
+    }
+  }
+  textarea {
+    resize: none;
+    border: 1px solid #ddd;
+    padding: 10px;
+    width: 100%;
+    height: 100px;
+    font-size: 15px;
 
     &:focus {
       border: 1px solid ${colors.primaryDarkColor};
