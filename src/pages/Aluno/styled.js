@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import { styled, createGlobalStyle } from 'styled-components';
 import * as colors from '../../config/colors';
 
 export const Title = styled.h1`
@@ -72,5 +72,17 @@ export const ProfilePicture = styled.div`
     width: 36px;
     height: 36px;
     border-radius: 50%;
+  }
+`;
+export const PrintStyles = createGlobalStyle`
+  @media print {
+    button {
+      display: none;
+    }
+
+    input::placeholder,
+    textarea::placeholder {
+      color: transparent;
+    }
   }
 `;

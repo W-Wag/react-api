@@ -84,7 +84,14 @@ export default function Aluno({ match }) {
       formErrors = true;
     }
     if (dataNascimento.length < 10 || dataNascimento.length > 10) {
-      toast.error('Data de nascimento esta invalida (DD/MM/AAAA)');
+      toast.error('Data de nascimento esta inválida (DD/MM/AAAA)');
+      formErrors = true;
+    }
+    if (
+      dataNascimento.match(/^(0[1-9]|1\d|2\d|3[01])-(0[1-9]|1[0-2])-(19\d{2}|20\d{2}|3000)$/) ===
+      null
+    ) {
+      toast.error('Essa data não é válida certifique que foi digitada corretamente');
       formErrors = true;
     }
     if (endereco.length < 3 || endereco.length > 255) {
@@ -92,11 +99,35 @@ export default function Aluno({ match }) {
       formErrors = true;
     }
     if (telefone.length < 9 || telefone.length > 13) {
-      toast.error('Telefone deve ter entre 9 e 13 caracteres');
+      toast.error('Telefone deve ter entre 9 e 13 digitos');
       formErrors = true;
     }
     if (!isInt(String(numIrmaos))) {
       toast.error('Número de irmãos deve ser um número inteiro');
+      formErrors = true;
+    }
+    if (pessoasMoramComigo.length < 2 || pessoasMoramComigo.length > 255) {
+      toast.error('Pessoas moram comigo deve ter entre 2 e 255 caracteres');
+      formErrors = true;
+    }
+    if (pessoasBuscam.length < 2 || pessoasBuscam.length > 255) {
+      toast.error('Pessoas buscam deve ter entre 2 e 255 caracteres');
+      formErrors = true;
+    }
+    if (escolaAnoPassado.length < 2 || escolaAnoPassado.length > 255) {
+      toast.error('Ano de passado deve ter de 2 ate 255 caracteres');
+      formErrors = true;
+    }
+    if (!nomeResponsavel1 && !nomeResponsavel2) {
+      toast.error('Deve ter pelo menos um responsável');
+      formErrors = true;
+    }
+    if (nomeResponsavel1 && !profissaoResponsavel1) {
+      toast.error('A profissão primeiro responsavel deve ser informada');
+      formErrors = true;
+    }
+    if (nomeResponsavel2 && !profissaoResponsavel2) {
+      toast.error('A profissão segundo responsavel deve ser informada');
       formErrors = true;
     }
     if (formErrors) return;
@@ -163,10 +194,21 @@ export default function Aluno({ match }) {
     }
   };
 
+  const handlePrint = () => {
+    window.print();
+  };
+
   return (
     <Container>
       <Loading isLoading={isLoading} />
-      <Styled.Title>{id ? 'Editar Aluno' : 'Novo Aluno'}</Styled.Title>
+      <Styled.Title>{id ? 'Dados Aluno' : 'Novo Aluno'}</Styled.Title>
+      {id ? (
+        <button type="button" onClick={handlePrint}>
+          Imprimir
+        </button>
+      ) : (
+        ''
+      )}
 
       {id && (
         <Styled.ProfilePicture>
@@ -179,7 +221,7 @@ export default function Aluno({ match }) {
 
       <Styled.Form onSubmit={handleSubmit}>
         <label htmlFor="nome">
-          Nome:
+          *Nome:
           <input
             type="text"
             value={nome}
@@ -188,7 +230,7 @@ export default function Aluno({ match }) {
           />
         </label>
         <label htmlFor="sobrenome">
-          Sobrenome:
+          *Sobrenome:
           <input
             type="text"
             value={sobrenome}
@@ -197,7 +239,7 @@ export default function Aluno({ match }) {
           />
         </label>
         <span>
-          Data de Nascimento:
+          *Data de Nascimento:
           <InputMask
             value={dataNascimento}
             mask="99-99-9999"
@@ -206,7 +248,7 @@ export default function Aluno({ match }) {
           />
         </span>
         <label htmlFor="endereco">
-          Endereço:
+          *Endereço:
           <input
             type="text"
             value={endereco}
@@ -215,7 +257,7 @@ export default function Aluno({ match }) {
           />
         </label>
         <label htmlFor="telefone">
-          Telefone:
+          *Telefone:
           <input
             type="text"
             value={telefone}
@@ -224,7 +266,7 @@ export default function Aluno({ match }) {
           />
         </label>
         <label htmlFor="nomeResponsavel1">
-          Nome do responsável 1:
+          Nome do primeiro responsável:
           <input
             type="text"
             value={nomeResponsavel1}
@@ -232,17 +274,8 @@ export default function Aluno({ match }) {
             placeholder="Digite o nome do responsável 1"
           />
         </label>
-        <label htmlFor="nomeResponsavel2">
-          Nome do responsável 2:
-          <input
-            type="text"
-            value={nomeResponsavel2}
-            onChange={(e) => setNomeResponsavel2(e.target.value)}
-            placeholder="Digite o nome do responsável 2"
-          />
-        </label>
         <label htmlFor="profissaoResponsavel1">
-          Profissão do responsável 1:
+          Profissão do primeiro responsável:
           <input
             type="text"
             value={profissaoResponsavel1}
@@ -250,8 +283,17 @@ export default function Aluno({ match }) {
             placeholder="Digite a profissão do responsável 1"
           />
         </label>
+        <label htmlFor="nomeResponsavel2">
+          Nome do segundo responsável:
+          <input
+            type="text"
+            value={nomeResponsavel2}
+            onChange={(e) => setNomeResponsavel2(e.target.value)}
+            placeholder="Digite o nome do responsável 2"
+          />
+        </label>
         <label htmlFor="profissaoResponsavel2">
-          Profissão do responsável 2:
+          Profissão do segundo responsável:
           <input
             type="text"
             value={profissaoResponsavel2}
@@ -260,16 +302,16 @@ export default function Aluno({ match }) {
           />
         </label>
         <label htmlFor="numIrmaos">
-          Número de irmãos:
+          *Número de irmãos:
           <input
             type="number"
             value={numIrmaos}
             onChange={(e) => setNumIrmaos(e.target.value)}
-            placeholder="Digite o número de irmãos"
+            placeholder="Digite o número de irmãos do aluno"
           />
         </label>
         <label htmlFor="pessoasMoramComigo">
-          Pessoas moram comigo:
+          *Pessoas que moram comigo:
           <input
             type="text"
             value={pessoasMoramComigo}
@@ -278,21 +320,21 @@ export default function Aluno({ match }) {
           />
         </label>
         <label htmlFor="pessoasBuscam">
-          Pessoas buscam:
+          *Pessoas que me buscam:
           <input
             type="text"
             value={pessoasBuscam}
             onChange={(e) => setPessoasBuscam(e.target.value)}
-            placeholder="Digite as pessoas que buscamo aluno"
+            placeholder="Digite as pessoas que buscam o aluno"
           />
         </label>
         <label htmlFor="escolaAnoPassado">
-          Escola ano passado:
+          *Escola do ano passado:
           <input
             type="text"
             value={escolaAnoPassado}
             onChange={(e) => setEscolaAnoPassado(e.target.value)}
-            placeholder="Digite a escola ano passado"
+            placeholder="Digite a escola que o aluno frequentou ano passado"
           />
         </label>
         <label htmlFor="observacoes">
@@ -306,6 +348,7 @@ export default function Aluno({ match }) {
 
         <button type="submit">Enviar</button>
       </Styled.Form>
+      <Styled.PrintStyles />
     </Container>
   );
 }
