@@ -1,5 +1,5 @@
 import axios from 'axios';
 
 export default axios.create({
-  baseURL: 'http://34.95.141.158:81',
+  baseURL: 'reactapi.ddns.net',
 });
