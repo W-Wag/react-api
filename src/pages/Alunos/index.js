@@ -3,16 +3,25 @@ import { get } from 'lodash';
 import { Link } from 'react-router-dom';
 import { FaUserCircle, FaEdit, FaTrash, FaExclamation } from 'react-icons/fa';
 import { toast } from 'react-toastify';
+import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 
 import axios from '../../services/axios';
+import history from '../../services/history';
 import { Container } from '../../styles/GlobalStyles';
 import * as Styled from './styled';
 import Loading from '../../components/Loading';
 
 export default function Alunos() {
+  const user = useSelector((state) => state.auth.user.id);
   const [alunos, setAlunos] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
+    if (!user) {
+      toast.error('Você precisa fazer login');
+      history.push('/login');
+      return;
+    }
     async function getData() {
       setIsLoading(true);
       const response = await axios.get('/alunos');
@@ -20,7 +29,7 @@ export default function Alunos() {
       setIsLoading(false);
     }
     getData();
-  }, []);
+  }, [user]);
 
   const askHandleDelete = (e) => {
     e.preventDefault();
@@ -85,3 +94,6 @@ export default function Alunos() {
     </Container>
   );
 }
+Alunos.propTypes = {
+  match: PropTypes.shape({}).isRequired,
+};

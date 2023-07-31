@@ -71,7 +71,7 @@ export default function Register() {
     e.preventDefault();
     if (deletar) return handleDelete();
     setDeletar(true);
-    return toast.warning('Ao clicar novamente esse aluno será excluído, tem certeza?');
+    return toast.warning('Ao clicar novamente seu usuário será excluído, você tem certeza?');
   };
   return (
     <Container>
@@ -102,7 +102,7 @@ export default function Register() {
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            placeholder="Digite sua senha"
+            placeholder={id ? 'Digite sua nova senha' : 'Digite sua senha'}
           />
         </label>
 
