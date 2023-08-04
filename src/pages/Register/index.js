@@ -55,7 +55,7 @@ export default function Register() {
     try {
       await axios.delete(`/users/`);
       dispatch(actions.LoginFailure());
-      toast.success('Usuário deletado com sucesso.');
+      toast.success('Usuário desativado com sucesso.');
       history.push('/');
     } catch (err) {
       const status = get(err, 'response.status', []);
@@ -63,7 +63,7 @@ export default function Register() {
         toast.error('Você precisa fazer login');
         history.push('/login');
       } else {
-        toast.error('Ocorreu um erro ao excluir aluno');
+        toast.error('Ocorreu um erro ao desativar o usuário');
       }
     }
   };
@@ -71,7 +71,7 @@ export default function Register() {
     e.preventDefault();
     if (deletar) return handleDelete();
     setDeletar(true);
-    return toast.warning('Ao clicar novamente seu usuário será excluído, você tem certeza?');
+    return toast.warning('Ao clicar novamente seu usuário será desativado, você tem certeza?');
   };
   return (
     <Container>
@@ -108,7 +108,7 @@ export default function Register() {
 
         {id ? (
           <Styled.DeleteBtn onClick={handleCheckDelete}>
-            {deletar ? <FaExclamation size={16} /> : 'Deletar Usuário'}
+            {deletar ? <FaExclamation size={16} /> : 'Desativar Usuário'}
           </Styled.DeleteBtn>
         ) : (
           <> </>

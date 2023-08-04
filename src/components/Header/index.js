@@ -19,9 +19,13 @@ export default function Header() {
       <Link to="/">
         <FaHome size={24} />
       </Link>
-      <Link to="/register">
-        <FaUserAlt size={24} />
-      </Link>
+      {isLoggedIn ? (
+        <Link to="/register">
+          <FaUserAlt size={24} />
+        </Link>
+      ) : (
+        <div />
+      )}
       {isLoggedIn ? (
         <Link onClick={handleLogout} to="/login">
           <FaPowerOff size={24} />
