@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import * as colors from '../../config/colors';
 
@@ -25,5 +26,16 @@ export const Form = styled.form`
     &:focus {
       border: 1px solid ${colors.primaryDarkColor};
     }
+  }
+`;
+export const InfoRedirect = styled(Link)`
+  display: block;
+  padding: 20px 0 10px 0;
+  color: gray;
+  font-weight: 600;
+
+  &:hover {
+    color: ${colors.primaryDarkColor};
+    font-weight: bold;
   }
 `;

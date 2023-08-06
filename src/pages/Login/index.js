@@ -56,6 +56,9 @@ export default function Login(props) {
         </label>
         <button type="submit">Entrar</button>
       </Styled.Form>
+      <Styled.InfoRedirect to="/info">
+        Não tem conta ou quer saber mais sobre o site? Clique Aqui!
+      </Styled.InfoRedirect>
     </Container>
   );
 }
